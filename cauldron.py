@@ -1,45 +1,59 @@
+import os
 import sys
 import random
 
-pwd = "sashenka"
+class Permutation(object):
+    def __init__(self):
+        self.data = random.sample(xrange(10), 10)
+
+    def apply(self, val_):
+        x = val_ % len(self.data)
+
+        return self.data[(self.data.index(x) + 1) % len(self.data)]
+
+    def __str__(self):
+        return str(self.data)
+
+class Map(object):
+    def __init__(self):
+        self.data = {}
+        for i in "abcdefghijklmnopqrstuvwxyz":
+            self.data[i] = random.randint(0, 9)
+
+    def encode(self, src_):
+        return [self.data[i] for i in src_]
+
+    def __str__(self):
+        return str(self.data)
 
 def main(opts_):
-    table = {}
+    m = Map()
+    p = Permutation()
 
-    for i in "abcdefghijklmnopqrstuvwxyz":
-        table[i] = random.randint(0, 9)
+    print "Map: " + os.linesep + str(m) + \
+          os.linesep + \
+          "Permutation: " + os.linesep + str(p)
 
-    for i,j in table.iteritems():
-        print "%s : %i" % (i, j)
-
-    g = []
-
-    for i in pwd:
-        g.append(table[i])
-
+    g = m.encode("sashenka")
     print g
 
-    d = []
+    d = ["Aa$"]
 
-    base = (g[0] + g[-1]) % 10
-    d.append(base)
-
-    l = len(g) - 1
-    while len(d) != len(g):
-        l -= 1
-
+    base = g[0]
+    for i in reversed(g):
         print "---"
         print "Prev. base: %i" % base
-        print "Next digit %i" % g[l]
+        print "Next digit %i" % i
 
-        base = (base + g[l]) % 10
+        base = p.apply(base + i)
         print "Result: %i" % base
 
         d.append(base)
 
-    d.append("Aa$")
-
     print d
+
+    return 0
 
 if __name__ == "__main__":
     sys.exit(main(sys.argv[1:]))
+
