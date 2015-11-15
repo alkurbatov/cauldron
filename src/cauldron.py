@@ -47,11 +47,15 @@ class Map(object):
         return str(self.data)
 
 def main(opts_):
-    parser = optparse.OptionParser("%prog", version="%prog 0.01")
+    parser = optparse.OptionParser("%prog [pwd]", version="%prog 0.01")
     parser.add_option("-p", action = "store", type = "string", dest="pepper",
         help = "text addition used to bypass some strict password requirements")
 
     (opts, args) = parser.parse_args()
+
+    if not args:
+        parser.print_usage()
+        return 1
 
     m = Map()
     p = Permutation()
@@ -60,7 +64,7 @@ def main(opts_):
           os.linesep + \
           "Permutation: " + os.linesep + str(p)
 
-    g = m.encode("sashenka")
+    g = m.encode(args[0])
     print g
 
     d = []
