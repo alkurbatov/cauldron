@@ -18,6 +18,7 @@
 import os
 import sys
 import random
+import optparse
 
 class Permutation(object):
     def __init__(self):
@@ -44,6 +45,12 @@ class Map(object):
         return str(self.data)
 
 def main(opts_):
+    parser = optparse.OptionParser("%prog", version="%prog 0.01")
+    parser.add_option("-p", action = "store", type = "string", dest="pepper",
+        help = "text addition used to bypass some strict password requirements")
+
+    (opts, args) = parser.parse_args()
+
     m = Map()
     p = Permutation()
 
@@ -54,7 +61,9 @@ def main(opts_):
     g = m.encode("sashenka")
     print g
 
-    d = ["Aa$"]
+    d = []
+    if opts.pepper:
+        d.append(opts.pepper)
 
     base = g[0]
     for i in reversed(g):
