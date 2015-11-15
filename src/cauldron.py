@@ -67,9 +67,9 @@ def main(opts_):
     g = m.encode(args[0])
     print g
 
-    d = []
+    d = ""
     if opts.pepper:
-        d.append(opts.pepper)
+        d += opts.pepper
 
     base = g[0]
     for i in reversed(g):
@@ -80,10 +80,9 @@ def main(opts_):
         base = p.apply(base + i)
         print "Result: %i" % base
 
-        d.append(base)
+        d += str(base)
 
     print d
-
     return 0
 
 if __name__ == "__main__":
