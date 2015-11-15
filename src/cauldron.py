@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 # This file is a part of Squirrel project
 #
 # Copyright (C) 2015, Alexander Kurbatov <sir.alkurbatov@yandex.ru>
